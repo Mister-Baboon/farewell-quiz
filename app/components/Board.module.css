@@ -1,0 +1,22 @@
+.wrap { width: 100%; max-width: 1100px; margin: 0 auto; padding: 24px 16px; display: flex; flex-direction: column; gap: 24px; }
+.board { display: grid; gap: 6px; }
+.category { background: #14308f; color: #fff; text-align: center; font-weight: 700; text-transform: uppercase; padding: 18px 8px; border-radius: 6px; min-height: 72px; display: flex; align-items: center; justify-content: center; }
+.cell { background: linear-gradient(#1d47c9, #123a9e); color: #ffd54a; font-size: clamp(1.4rem, 4vw, 2.6rem); font-weight: 800; border: 0; border-radius: 6px; padding: 28px 8px; cursor: pointer; text-shadow: 2px 2px 0 rgba(0,0,0,.4); transition: transform .1s, filter .1s; }
+.cell:hover:not(:disabled) { transform: scale(1.03); filter: brightness(1.15); }
+.cell:disabled { background: #0c1a4a; cursor: default; }
+.scores { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
+.scores li { display: flex; justify-content: space-between; background: #14308f; color: #fff; padding: 10px 14px; border-radius: 6px; }
+.scores b { color: #ffd54a; }
+.overlay { position: fixed; inset: 0; background: rgba(5, 10, 40, .85); display: grid; place-items: center; padding: 16px; z-index: 10; }
+.modal { background: #123a9e; color: #fff; width: 100%; max-width: 640px; border-radius: 10px; padding: 28px; display: flex; flex-direction: column; gap: 18px; }
+.meta { color: #ffd54a; font-weight: 700; text-transform: uppercase; font-size: .85rem; }
+.question { font-size: 1.6rem; line-height: 1.3; }
+.answer { font-size: 1.3rem; color: #ffd54a; }
+.label { display: flex; flex-direction: column; gap: 6px; font-weight: 600; }
+.label select { padding: 10px; border-radius: 6px; font-size: 1rem; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.primary, .secondary, .ghost { padding: 10px 16px; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; border: 0; }
+.primary { background: #ffd54a; color: #1a1a1a; }
+.primary:disabled { opacity: .4; cursor: not-allowed; }
+.secondary { background: #2a56d6; color: #fff; }
+.ghost { background: transparent; color: #cfd8ff; }

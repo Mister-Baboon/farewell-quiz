@@ -1,0 +1,32 @@
+.player { display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 20px 12px; border-radius: 12px; background: radial-gradient(circle at 50% 0%, #2a56d6 0%, #0c1a4a 70%); }
+
+.disc { position: relative; width: 140px; height: 140px; display: grid; place-items: center; }
+.vinyl { position: relative; width: 120px; height: 120px; border-radius: 50%; display: grid; place-items: center; background: repeating-radial-gradient(circle, #111 0 3px, #1c1c1c 3px 6px); box-shadow: 0 8px 24px rgba(0,0,0,.5); animation: spin 5s linear infinite; animation-play-state: paused; }
+.label { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, #ffd54a, #ff8a3d); color: #1a1a1a; font-size: 1.3rem; }
+.ring { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(255, 213, 74, .6); opacity: 0; }
+
+.bars { display: flex; align-items: flex-end; justify-content: center; gap: 4px; height: 64px; width: 100%; max-width: 360px; }
+.bar { flex: 1; height: 100%; border-radius: 3px; background: linear-gradient(to top, #ffd54a, #ff6bb0); transform-origin: bottom; transform: scaleY(.12); animation: bounce 0.8s ease-in-out infinite alternate; animation-play-state: paused; opacity: .6; }
+
+.progress { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 6px; }
+.track { height: 6px; border-radius: 3px; background: rgba(255,255,255,.18); overflow: hidden; }
+.fill { height: 100%; background: linear-gradient(to right, #ffd54a, #ff6bb0); transition: width .3s linear; }
+.times { display: flex; justify-content: space-between; font-size: .8rem; color: #cfd8ff; font-variant-numeric: tabular-nums; }
+
+.replay { padding: 10px 20px; border: 0; border-radius: 999px; background: rgba(255,255,255,.14); color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; }
+.replay:hover { background: rgba(255,255,255,.24); }
+
+.on .vinyl { animation-play-state: running; }
+.on .bar { animation-play-state: running; opacity: 1; }
+.on .ring { animation: pulse 2.4s ease-out infinite; }
+.on .ring:nth-child(2) { animation-delay: .8s; }
+.on .ring:nth-child(3) { animation-delay: 1.6s; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes bounce { from { transform: scaleY(.12); } to { transform: scaleY(1); } }
+@keyframes pulse { 0% { transform: scale(.85); opacity: .7; } 100% { transform: scale(1.7); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .vinyl, .bar, .ring { animation: none !important; }
+  .bar { transform: scaleY(.5); }
+}
