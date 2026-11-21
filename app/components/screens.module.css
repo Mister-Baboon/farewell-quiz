@@ -23,8 +23,9 @@
 .categoryWrap .category { flex: 1; }
 .reviewBtn { padding: 10px; border: 1px solid rgba(255,255,255,.35); border-radius: 6px; background: transparent; color: #fff; font-size: .95rem; font-weight: 600; cursor: pointer; }
 .reviewBtn:hover { background: rgba(255,255,255,.12); }
-.reviewTrack { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
-.cover { width: 160px; height: 160px; flex: none; border-radius: 8px; overflow: hidden; background: #0c1a4a; box-shadow: 0 8px 24px rgba(0,0,0,.4); }
+.reviewTrack { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+.reviewText { width: 100%; min-height: 6.5rem; }
+.cover { width: min(240px, 70vw); aspect-ratio: 1 / 1; flex: none; border-radius: 8px; overflow: hidden; background: #0c1a4a; box-shadow: 0 8px 24px rgba(0,0,0,.4); }
 .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .artist { color: #ffd54a; font-weight: 700; text-transform: uppercase; font-size: .9rem; }
 .song { font-size: 1.5rem; font-weight: 700; line-height: 1.25; }

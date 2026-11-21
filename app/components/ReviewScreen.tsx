@@ -39,10 +39,10 @@ export default function ReviewScreen({
         {track && (
           <div className={styles.cover}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={asset(track.cover)} alt="" width={160} height={160} />
+            <img src={asset(track.cover)} alt="" width={240} height={240} />
           </div>
         )}
-        <div>
+        <div className={styles.reviewText}>
           <div className={styles.artist}>{track?.artist}</div>
           <div className={styles.song}>{track?.title}</div>
         </div>

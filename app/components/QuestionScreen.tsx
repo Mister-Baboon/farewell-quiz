@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { type Category } from "../data/categories";
 import { PLAYERS, type Player } from "../data/players";
+import AvatarPicker from "./AvatarPicker";
 import NowPlaying from "./NowPlaying";
 import styles from "./screens.module.css";
 
@@ -23,7 +24,7 @@ export default function QuestionScreen({
     onReplay: () => void;
   };
 }) {
-  const [choice, setChoice] = useState<Player | "">("");
+  const [choice, setChoice] = useState<Player>(PLAYERS[0]);
   const question = category.questions[index];
 
   return (
@@ -31,7 +32,7 @@ export default function QuestionScreen({
       className={styles.section}
       onSubmit={(e) => {
         e.preventDefault();
-        if (choice) onAnswer(choice);
+        onAnswer(choice);
       }}
     >
       <div className={styles.meta}>
@@ -48,24 +49,10 @@ export default function QuestionScreen({
         />
       )}
 
-      <label className={styles.label}>
-        Кто это?
-        <select
-          className={styles.select}
-          value={choice}
-          onChange={(e) => setChoice(e.target.value as Player | "")}
-        >
-          <option value="">— выбери —</option>
-          {PLAYERS.map((p) => (
-            <option key={p} value={p}>
-              {p}
-            </option>
-          ))}
-        </select>
-      </label>
+      <AvatarPicker label="Кто это?" value={choice} onChange={setChoice} />
 
       <div className={styles.actions}>
-        <button className={styles.primary} type="submit" disabled={!choice}>
+        <button className={styles.primary} type="submit">
           Подтвердить
         </button>
         <button className={styles.ghost} type="button" onClick={onBack}>
