@@ -18,6 +18,10 @@ export default function Game() {
       CATEGORIES.flatMap((c) => c.questions)
         .flatMap((q) => (q.audio ? [asset(q.audio)] : [])),
     );
+    // Warm the browser cache with the photos too.
+    for (const q of CATEGORIES.flatMap((c) => c.questions)) {
+      if (q.image) new Image().src = asset(q.image);
+    }
   }, []);
 
   if (player === undefined) return null; // hydrating

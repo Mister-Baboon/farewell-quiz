@@ -39,3 +39,6 @@
 .bad .mark { color: #ff6b6b; }
 .countdown { height: 4px; border-radius: 2px; background: rgba(255,255,255,.18); overflow: hidden; }
 .countdownFill { height: 100%; background: #ffd54a; transition: width .3s linear; }
+
+.photo { width: 100%; max-width: 440px; aspect-ratio: 1 / 1; margin: 0 auto; border-radius: 12px; overflow: hidden; background: #0c1a4a; box-shadow: 0 8px 24px rgba(0,0,0,.4); }
+.photo img { width: 100%; height: 100%; object-fit: contain; display: block; }

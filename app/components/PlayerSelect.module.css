@@ -7,3 +7,4 @@
 .primary { background: #ffd54a; color: #1a1a1a; }
 .primary:disabled { opacity: .4; cursor: not-allowed; }
 .ghost { background: transparent; color: #cfd8ff; }
+.note { margin: 0; text-align: center; color: #ffd54a; font-size: .95rem; }

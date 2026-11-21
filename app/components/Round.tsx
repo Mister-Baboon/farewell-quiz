@@ -18,7 +18,12 @@ type View =
   | { mode: 'review'; id: string; index: number }
   | null;
 
-const hasReview = (c: Category) => c.questions.every((q) => q.track);
+// Silent (photo) rounds show each answer for this long.
+const PHOTO_REVIEW_SECONDS = 8;
+
+const hasReview = (c: Category) => c.questions.every((q) => q.track || q.image);
+const reviewSeconds = (c: Category) =>
+  c.questions.some((q) => q.audio) ? REVIEW_SECONDS : PHOTO_REVIEW_SECONDS;
 
 // Category screen -> questions -> answers, for one player.
 export default function Round({ player }: { player: Player }) {
@@ -83,7 +88,7 @@ export default function Round({ player }: { player: Player }) {
         guess={guesses[view.index]}
         playing={audio.playing}
         onReplay={audio.replay}
-        seconds={REVIEW_SECONDS}
+        seconds={reviewSeconds(cat)}
         elapsed={audio.time.current}
         onNext={nextReview}
       />

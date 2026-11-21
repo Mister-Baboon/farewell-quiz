@@ -18,6 +18,7 @@ export default function PlayerSelect() {
       }}
     >
       <h1 className={styles.title}>Кто ты?</h1>
+      <p className={styles.note}>у нас 2 Леши, запомни кто К и кто Г</p>
       <AvatarPicker label="Свайпни и выбери себя" value={choice} onChange={setChoice} />
       <button className={styles.primary} type="submit">
         Это я

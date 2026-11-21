@@ -5,10 +5,16 @@ export type Question = {
   text: string;
   answer: Player;
   audio?: string; // path under /public, e.g. "/music/1.m4a"
+  image?: string; // photo to guess, path under /public
   // Shown on the answers screen after the round.
   track?: { artist: string; title: string; cover: string };
 };
-export type Category = { id: string; title: string; questions: Question[] };
+export type Category = {
+  id: string;
+  title: string;
+  questions: Question[];
+  plainSelect?: boolean; // plain dropdown instead of the avatar picker
+};
 
 // Placeholder questions: replace `text` and `answer` with the real ones.
 const placeholder = (id: string, title: string): Category => ({
@@ -62,9 +68,71 @@ function withAudio(cat: Category): Category {
   };
 }
 
+// Photo rounds: question i shows /public/<dir>/<file>.jpeg. Order as given.
+function photoRound(
+  id: string,
+  title: string,
+  dir: string,
+  items: [Player, string][],
+  plainSelect = true,
+): Category {
+  return {
+    id,
+    title,
+    plainSelect,
+    questions: items.map(([answer, file]) => ({
+      text: "Кто на фото?",
+      answer,
+      image: `/${dir}/${file.includes(".") ? file : `${file}.jpeg`}`,
+    })),
+  };
+}
+
+const kids = photoRound("kids", "Дети", "kids", [
+  ["Леша К", "aliaksei_k"],
+  ["Ира", "ira"],
+  ["Аня", "hanna"],
+  ["Леша Г", "aliaksei_h"],
+  ["Витя", "viktar"],
+  ["Кристина", "kristina"],
+  ["Кирилл", "kiryl"],
+  ["Максим", "maksim"],
+]);
+
+// Maxim first, Леша Г last, the rest in a fixed "random" order.
+// hanna_2 is deliberately unused.
+const art = photoRound("art", "Изобразительное искусство", "art", [
+  ["Максим", "maxim"],
+  ["Кристина", "kristina"],
+  ["Леша К", "aleksei_k"],
+  ["Витя", "viktar"],
+  ["Кирилл", "kiryl"],
+  ["Ира", "ira"],
+  ["Аня", "hanna"],
+  ["Леша Г", "aliaksei_h"],
+]);
+
+// Gameplay screenshots in /public/games, answered with the avatar picker.
+const games = photoRound(
+  "games",
+  "Игры",
+  "games",
+  [
+    ["Витя", "viktar.jpg"], // Gothic 2
+    ["Аня", "hanna.jpg"], // Рэкс
+    ["Кирилл", "kiryl.jpg"], // Kingdom Come: Deliverance
+    ["Ира", "ira.jpg"], // Balatro
+    ["Леша Г", "aleksei_h.jpg"], // Mario (Dendy)
+    ["Леша К", "aleksei_k.jpg"], // Oblivion
+    ["Максим", "max.jpg"], // Fallout: New Vegas
+    ["Кристина", "kristina.jpg"], // The Sims 3
+  ],
+  false,
+);
+
 export const CATEGORIES: Category[] = [
-  placeholder("attribute", "Аттрибут"),
   withAudio(placeholder("music", "Музыка")),
-  placeholder("art", "Изобразительное искусство"),
-  placeholder("games", "Игры"),
+  art,
+  games,
+  kids,
 ];

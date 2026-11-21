@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { type Category } from "../data/categories";
 import { type Player } from "../data/players";
 import { asset } from "../lib-asset";
@@ -29,6 +30,31 @@ export default function ReviewScreen({
   const correct = guess === q.answer;
   const last = index + 1 === category.questions.length;
 
+  // No audio to drive the countdown (photo rounds): run our own timer and
+  // move on by itself when it runs out.
+  const silent = !q.audio;
+  const [ownElapsed, setOwnElapsed] = useState(0);
+  const nextRef = useRef(onNext);
+  useEffect(() => {
+    nextRef.current = onNext;
+  });
+  useEffect(() => {
+    if (!silent) return;
+    const start = Date.now();
+    const id = setInterval(() => {
+      const t = (Date.now() - start) / 1000;
+      if (t >= seconds) {
+        clearInterval(id);
+        setOwnElapsed(seconds);
+        nextRef.current();
+      } else {
+        setOwnElapsed(t);
+      }
+    }, 100);
+    return () => clearInterval(id);
+  }, [silent, seconds]);
+  const shown = silent ? ownElapsed : elapsed;
+
   return (
     <section className={styles.section}>
       <div className={styles.meta}>
@@ -42,10 +68,18 @@ export default function ReviewScreen({
             <img src={asset(track.cover)} alt="" width={240} height={240} />
           </div>
         )}
-        <div className={styles.reviewText}>
-          <div className={styles.artist}>{track?.artist}</div>
-          <div className={styles.song}>{track?.title}</div>
-        </div>
+        {!track && q.image && (
+          <div className={styles.photo}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={asset(q.image)} alt="" />
+          </div>
+        )}
+        {track && (
+          <div className={styles.reviewText}>
+            <div className={styles.artist}>{track.artist}</div>
+            <div className={styles.song}>{track.title}</div>
+          </div>
+        )}
       </div>
 
       <div className={`${styles.verdict} ${correct ? styles.ok : styles.bad}`}>
@@ -63,7 +97,7 @@ export default function ReviewScreen({
       <div className={styles.countdown} aria-hidden>
         <div
           className={styles.countdownFill}
-          style={{ width: `${Math.min(100, (elapsed / seconds) * 100)}%` }}
+          style={{ width: `${Math.min(100, (shown / seconds) * 100)}%` }}
         />
       </div>
 
@@ -71,9 +105,11 @@ export default function ReviewScreen({
         <button className={styles.primary} onClick={onNext}>
           {last ? "К категориям" : "Дальше"}
         </button>
-        <button className={styles.ghost} type="button" onClick={onReplay}>
-          {playing ? "♪ Играет…" : "↻ Повторить"} ({seconds} с)
-        </button>
+        {!silent && (
+          <button className={styles.ghost} type="button" onClick={onReplay}>
+            {playing ? "♪ Играет…" : "↻ Повторить"} ({seconds} с)
+          </button>
+        )}
       </div>
     </section>
   );
