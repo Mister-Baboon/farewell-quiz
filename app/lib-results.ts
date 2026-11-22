@@ -1,7 +1,8 @@
 "use client";
 
 import { CATEGORIES } from "./data/categories";
-import { type Account } from "./data/players";
+import { GUEST, type Account } from "./data/players";
+import { getGuestName } from "./lib-player";
 import { type Progress } from "./lib-progress";
 
 // Google Apps Script web app (see docs/results-sheet.md). Hardcoded on purpose:
@@ -35,7 +36,7 @@ export async function submitResults(player: Account, progress: Progress) {
     guesses: progress[c.id] ?? [],
   }));
   const payload = {
-    player,
+    player: player === GUEST ? `${GUEST} ${getGuestName()}`.trim() : player,
     finishedAt: new Date().toISOString(),
     total: categories.reduce((s, c) => s + c.total, 0),
     correct: categories.reduce((s, c) => s + c.correct, 0),

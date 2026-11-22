@@ -1,7 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { ACCOUNTS, type Account } from "./data/players";
+import { ACCOUNTS, GUEST, type Account } from "./data/players";
 
 // Which player this browser/device is. Stored locally; no server involved.
 const KEY = "quiz:player";
@@ -36,4 +36,27 @@ export function setPlayer(p: Account | null) {
 // undefined while hydrating, then Account | null.
 export function usePlayer(): Account | null | undefined {
   return useSyncExternalStore(subscribe, read, () => undefined);
+}
+
+// A guest types a name; it is sent to the results sheet as "Гость <name>".
+const GUEST_KEY = "quiz:guest-name";
+
+export function getGuestName(): string {
+  try {
+    return localStorage.getItem(GUEST_KEY) ?? "";
+  } catch {
+    return "";
+  }
+}
+
+// A different guest on the same device starts from scratch.
+export function setGuestName(name: string) {
+  try {
+    if (getGuestName() !== name) {
+      localStorage.removeItem(`quiz:progress:${GUEST}`);
+      localStorage.removeItem(`quiz:submitted:${GUEST}`);
+      window.dispatchEvent(new Event("quiz:progress-change"));
+    }
+    localStorage.setItem(GUEST_KEY, name);
+  } catch {}
 }

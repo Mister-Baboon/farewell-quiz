@@ -8,3 +8,4 @@
 .primary:disabled { opacity: .4; cursor: not-allowed; }
 .ghost { background: transparent; color: #cfd8ff; }
 .note { margin: 0; text-align: center; color: #ffd54a; font-size: .95rem; }
+.input { padding: 12px; font-size: 1rem; border-radius: 6px; border: 0; text-align: center; }

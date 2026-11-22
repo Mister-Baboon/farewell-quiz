@@ -21,7 +21,7 @@ function doPost(e) {
   });
 
   const row = [d.player, d.finishedAt, d.correct, d.total]
-    .concat(d.categories.map((c) => c.correct + "/" + c.total));
+    .concat(d.categories.map((c) => c.correct));
 
   const names = sheet.getRange(2, 1, Math.max(sheet.getLastRow() - 1, 1), 1).getValues();
   let r = names.findIndex((n) => n[0] === d.player);
