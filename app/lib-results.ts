@@ -9,7 +9,7 @@ import { type Progress } from "./lib-progress";
 // short-lived app, the URL only lets someone append rows to one sheet.
 const URL =
   process.env.NEXT_PUBLIC_RESULTS_URL ??
-  "https://script.google.com/macros/s/AKfycbzabp7rAcDJ9i8tXpmn9s6SkykMPpaDkGenFGnBluqQQOmXjVZieVSLW6QRlYmEc-B6/exec";
+  "https://script.google.com/macros/s/AKfycbwtPmKjm6o4K6KFIHN5aarMvI6seiOtBWCsE6WwsaZN08JDFVSYB34Oy2e4fpMRe5Qg/exec";
 const sentKey = (player: Account) => `quiz:submitted:${player}`;
 
 export const isFinished = (progress: Progress) =>

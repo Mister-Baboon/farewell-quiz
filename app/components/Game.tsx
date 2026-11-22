@@ -3,7 +3,9 @@
 import { useEffect } from "react";
 import { CATEGORIES } from "../data/categories";
 import { asset } from "../lib-asset";
+import { AVATARS } from "../data/players";
 import { preloadAudio } from "../lib-audio";
+import { preloadImages } from "../lib-images";
 import { setPlayer, usePlayer } from "../lib-player";
 import PlayerSelect from "./PlayerSelect";
 import Round from "./Round";
@@ -18,12 +20,16 @@ export default function Game() {
       CATEGORIES.flatMap((c) => c.questions)
         .flatMap((q) => (q.audio ? [asset(q.audio)] : [])),
     );
-    // Warm the browser cache with the photos too.
-    for (const q of CATEGORIES.flatMap((c) => c.questions)) {
-      for (const src of [q.image, ...(q.images ?? [])]) {
-        if (src) new Image().src = asset(src);
-      }
-    }
+    // Same for every picture: question photos, meme sets, album covers, avatars.
+    const questions = CATEGORIES.flatMap((c) => c.questions);
+    preloadImages(
+      [
+        ...questions.flatMap((q) => [q.image, q.track?.cover, ...(q.images ?? [])]),
+        ...Object.values(AVATARS),
+      ]
+        .filter((src): src is string => !!src)
+        .map(asset),
+    );
   }, []);
 
   if (player === undefined) return null; // hydrating
