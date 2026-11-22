@@ -1,10 +1,49 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { asset } from "../lib-asset";
+import { isVideo, videoSrc } from "../lib-video";
 import styles from "./MemeCarousel.module.css";
 
 const SWIPE_MIN = 50; // px of drag that counts as a swipe
+
+// A clip that starts by itself when its slide appears, with a replay button.
+function Clip({ src }: { src: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
+
+  const replay = () => {
+    const v = ref.current;
+    if (!v) return;
+    v.currentTime = 0;
+    v.play().catch(() => {}); // blocked -> the button is still there
+  };
+  useEffect(() => {
+    ref.current?.play().catch(() => {});
+  }, []);
+
+  return (
+    <>
+      <video
+        ref={ref}
+        src={videoSrc(src)}
+        playsInline
+        preload="auto"
+        onPlaying={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+        onEnded={() => setPlaying(false)}
+      />
+      <button
+        type="button"
+        className={styles.replay}
+        onPointerDown={(e) => e.stopPropagation()}
+        onClick={replay}
+      >
+        {playing ? "▶ Играет…" : "↻ Повторить"}
+      </button>
+    </>
+  );
+}
 
 // Several images for one question: swipe (or tap the arrows) to move on.
 // It is cyclic, so after the last image you land on the first again.
@@ -65,8 +104,12 @@ export default function MemeCarousel({ images }: { images: string[] }) {
           className={`${styles.slide} ${dragging ? styles.drag : dir === 1 ? styles.fromRight : styles.fromLeft}`}
           style={dragging ? { transform: `translateX(${dx}px)` } : undefined}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={asset(images[index])} alt="" draggable={false} />
+          {isVideo(images[index]) ? (
+            <Clip src={asset(images[index])} />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={asset(images[index])} alt="" draggable={false} />
+          )}
         </div>
         {n > 1 && (
           <>

@@ -1,4 +1,4 @@
-.card { margin: auto; width: 100%; max-width: 380px; padding: 32px 24px; display: flex; flex-direction: column; gap: 16px; align-items: stretch; text-align: center; background: #123a9e; border-radius: 10px; color: #fff; }
+.card { margin: auto; width: 100%; max-width: 380px; padding: 32px 24px; display: flex; flex-direction: column; gap: 16px; align-items: stretch; text-align: center; background: rgba(12, 38, 120, .8); backdrop-filter: blur(6px); box-shadow: 0 8px 28px rgba(0,0,0,.45); border-radius: 10px; color: #fff; }
 .title { font-size: 1.8rem; }
 .hint { color: #cfd8ff; }
 .name { font-size: 2.2rem; color: #ffd54a; }

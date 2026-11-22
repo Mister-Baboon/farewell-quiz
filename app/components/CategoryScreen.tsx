@@ -27,7 +27,7 @@ export default function CategoryScreen({
   );
 
   return (
-    <section className={styles.section}>
+    <section className={`${styles.section} ${styles.clear}`}>
       {finished ? (
         <div className={styles.finalScore}>
           <span className={styles.finalLabel}>Все раунды пройдены</span>

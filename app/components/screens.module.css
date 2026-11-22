@@ -1,12 +1,15 @@
 .page { width: 100%; max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; color: #fff; }
-.header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.header { text-shadow: 0 1px 4px rgba(0,0,0,.8); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .header b { color: #ffd54a; }
-.section { display: flex; flex-direction: column; gap: 18px; background: #123a9e; border-radius: 10px; padding: 28px 24px; }
+.section { display: flex; flex-direction: column; gap: 18px; background: rgba(12, 38, 120, .8); backdrop-filter: blur(6px); border-radius: 10px; padding: 28px 24px; box-shadow: 0 8px 28px rgba(0,0,0,.45); }
+/* Category screen: no big panel, so the poster shows between the cards. */
+.clear { background: none; backdrop-filter: none; box-shadow: none; padding: 0; }
+.clear .title { align-self: center; padding: 8px 20px; border-radius: 999px; background: rgba(8, 20, 70, .72); backdrop-filter: blur(6px); }
 .title { font-size: 1.8rem; text-align: center; }
 .categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
-.category { display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center; min-height: 120px; padding: 16px; border: 0; border-radius: 8px; cursor: pointer; background: linear-gradient(#1d47c9, #14308f); color: #fff; transition: transform .1s, filter .1s; }
+.category { display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center; min-height: 120px; padding: 16px; border: 0; border-radius: 8px; cursor: pointer; background: linear-gradient(rgba(29,71,201,.92), rgba(20,48,143,.92)); box-shadow: 0 4px 14px rgba(0,0,0,.4); color: #fff; transition: transform .1s, filter .1s; }
 .category:hover:not(:disabled) { transform: scale(1.02); filter: brightness(1.15); }
-.category:disabled { background: #0c1a4a; color: #8a96c9; cursor: default; }
+.category:disabled { background: rgba(10, 20, 64, .85); color: #8a96c9; cursor: default; }
 .catTitle { font-size: 1.3rem; font-weight: 700; text-transform: uppercase; text-align: center; }
 .catStatus { color: #ffd54a; }
 .category:disabled .catStatus { color: #b9c4f2; }
@@ -21,7 +24,7 @@
 .ghost { background: transparent; color: #cfd8ff; }
 .categoryWrap { display: flex; flex-direction: column; gap: 8px; }
 .categoryWrap .category { flex: 1; }
-.reviewBtn { padding: 10px; border: 1px solid rgba(255,255,255,.35); border-radius: 6px; background: transparent; color: #fff; font-size: .95rem; font-weight: 600; cursor: pointer; }
+.reviewBtn { padding: 10px; border: 1px solid rgba(255,255,255,.35); border-radius: 6px; background: rgba(8, 20, 70, .6); color: #fff; font-size: .95rem; font-weight: 600; cursor: pointer; }
 .reviewBtn:hover { background: rgba(255,255,255,.12); }
 .reviewTrack { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
 .reviewText { width: 100%; min-height: 6.5rem; }
@@ -45,7 +48,7 @@
 .caption { margin: 0; text-align: center; font-size: 1.5rem; font-weight: 800; color: #ffd54a; }
 .catDesc { font-size: .85rem; line-height: 1.35; text-align: center; color: #cfd8ff; }
 .category:disabled .catDesc { color: #8a96c9; }
-.finalScore { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 16px; border-radius: 10px; background: #123a9e; color: #fff; text-align: center; }
+.finalScore { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 16px; border-radius: 10px; background: rgba(12, 38, 120, .85); backdrop-filter: blur(6px); box-shadow: 0 8px 28px rgba(0,0,0,.45); color: #fff; text-align: center; }
 .finalLabel { color: #cfd8ff; font-size: .95rem; }
 .finalValue { font-size: 3rem; font-weight: 800; color: #ffd54a; line-height: 1; }
 .finalValue small { font-size: 1.1rem; color: #cfd8ff; font-weight: 600; }

@@ -31,6 +31,33 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Poster behind everything. ::before is a blurred, darkened copy that fills
+   the whole screen; ::after shows the full poster (contain) on top of it, so
+   on wide screens nothing is cropped. Fixed pseudo-elements instead of
+   background-attachment: fixed (broken on iOS). */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+body::before {
+  background:
+    linear-gradient(rgba(6, 12, 36, 0.55), rgba(6, 12, 36, 0.55)),
+    var(--bg-image) center / cover no-repeat,
+    var(--background);
+  filter: blur(24px);
+  transform: scale(1.1); /* hide the soft edges the blur leaves */
+}
+
+body::after {
+  background:
+    linear-gradient(rgba(6, 12, 36, 0.3), rgba(6, 12, 36, 0.5)),
+    var(--bg-image) center / contain no-repeat;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { asset } from "./lib-asset";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -20,7 +21,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="ru" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+      <body
+        style={{ "--bg-image": `url(${asset("/background.jpeg")})` } as React.CSSProperties}
+      >
+        {children}
+      </body>
     </html>
   );
 }

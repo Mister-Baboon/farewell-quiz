@@ -164,7 +164,7 @@ const MEME_FILES: [Player, string[]][] = [
   ["Аня", ["5_1.jpg", "5_2.jpg", "5_3.jpg"]],
   ["Ира", ["6_1.jpg", "6_2.jpg"]],
   ["Кристина", ["7_1.jpeg", "7_2.jpg"]],
-  ["Кирилл", ["8_1.jpg", "8_2.jpeg"]],
+  ["Кирилл", ["8_1.mp4", "8_2.jpg", "8_3.jpeg"]],
 ];
 
 const memes: Category = {

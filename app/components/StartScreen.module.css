@@ -1,0 +1,9 @@
+.root { position: fixed; inset: 0; z-index: 10; display: flex; align-items: flex-end; justify-content: center; padding: 0 16px calc(32px + env(safe-area-inset-bottom)); overflow: hidden; background: #060c24; }
+/* blurred fill for the sides, full poster on top (no veil) */
+.root::before, .root::after { content: ""; position: absolute; inset: 0; }
+.root::before { background: var(--bg-image) center / cover no-repeat; filter: blur(24px) brightness(.6); transform: scale(1.1); }
+.root::after { background: var(--bg-image) center / contain no-repeat; }
+.button { position: relative; z-index: 1; min-width: 220px; padding: 16px 40px; border: 0; border-radius: 999px; background: #ffd54a; color: #1a1a1a; font-size: 1.3rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; cursor: pointer; box-shadow: 0 6px 24px rgba(0,0,0,.6), 0 0 0 3px rgba(255,213,74,.35); animation: pulse 2s ease-in-out infinite; }
+.button:hover { filter: brightness(1.08); }
+@keyframes pulse { 50% { transform: scale(1.04); } }
+@media (prefers-reduced-motion: reduce) { .button { animation: none; } }
