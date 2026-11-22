@@ -2,6 +2,7 @@
 
 import { CATEGORIES, type Category } from "../data/categories";
 import { type Progress } from "../lib-progress";
+import { isFinished } from "../lib-results";
 import styles from "./screens.module.css";
 
 export default function CategoryScreen({
@@ -15,9 +16,28 @@ export default function CategoryScreen({
   onPick: (c: Category) => void;
   onReview: (c: Category) => void;
 }) {
+  const finished = isFinished(progress);
+  const total = CATEGORIES.reduce((s, c) => s + c.questions.length, 0);
+  const score = CATEGORIES.reduce(
+    (s, c) =>
+      s +
+      (progress[c.id] ?? []).filter((g, i) => g === c.questions[i]?.answer)
+        .length,
+    0,
+  );
+
   return (
     <section className={styles.section}>
-      <h1 className={styles.title}>Выбери категорию</h1>
+      {finished ? (
+        <div className={styles.finalScore}>
+          <span className={styles.finalLabel}>Все раунды пройдены</span>
+          <span className={styles.finalValue}>
+            {score} <small>из {total}</small>
+          </span>
+        </div>
+      ) : (
+        <h1 className={styles.title}>Выбери категорию</h1>
+      )}
       <div className={styles.categories}>
         {CATEGORIES.map((cat) => {
           const guesses = progress[cat.id] ?? [];
