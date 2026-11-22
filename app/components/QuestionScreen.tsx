@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { type Category } from "../data/categories";
 import { PLAYERS, type Player } from "../data/players";
+import MemeCarousel from "./MemeCarousel";
 import AvatarPicker from "./AvatarPicker";
 import { asset } from "../lib-asset";
 import NowPlaying from "./NowPlaying";
@@ -50,6 +51,7 @@ export default function QuestionScreen({
         />
       )}
 
+      {question.images && <MemeCarousel images={question.images} />}
       {question.image && (
         <div className={styles.photo}>
           {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { type Category } from "../data/categories";
 import { type Player } from "../data/players";
+import MemeCarousel from "./MemeCarousel";
 import { asset } from "../lib-asset";
 import styles from "./screens.module.css";
 
@@ -68,6 +69,7 @@ export default function ReviewScreen({
             <img src={asset(track.cover)} alt="" width={240} height={240} />
           </div>
         )}
+        {q.images && <MemeCarousel key={index} images={q.images} />}
         {!track && q.image && (
           <div className={styles.photo}>
             {/* eslint-disable-next-line @next/next/no-img-element */}

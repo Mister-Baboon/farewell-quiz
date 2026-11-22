@@ -6,6 +6,7 @@ import { type Account } from '../data/players';
 import { asset } from '../lib-asset';
 import { useAudio } from '../lib-audio';
 import { saveAnswer, useProgress } from '../lib-progress';
+import { submitResults } from '../lib-results';
 import CategoryScreen from './CategoryScreen';
 import QuestionScreen from './QuestionScreen';
 import ReviewScreen from './ReviewScreen';
@@ -21,13 +22,24 @@ type View =
 // Silent (photo) rounds show each answer for this long.
 const PHOTO_REVIEW_SECONDS = 8;
 
-const hasReview = (c: Category) => c.questions.every((q) => q.track || q.image);
+// Memes have several pictures per question, so they get longer.
+const MEME_REVIEW_SECONDS = 15;
+
+const hasReview = (c: Category) =>
+  c.questions.every((q) => q.track || q.image || q.images);
 const reviewSeconds = (c: Category) =>
-  c.questions.some((q) => q.audio) ? REVIEW_SECONDS : PHOTO_REVIEW_SECONDS;
+  c.questions.some((q) => q.audio)
+    ? REVIEW_SECONDS
+    : c.questions.some((q) => q.images)
+      ? MEME_REVIEW_SECONDS
+      : PHOTO_REVIEW_SECONDS;
 
 // Category screen -> questions -> answers, for one player.
 export default function Round({ player }: { player: Account }) {
   const progress = useProgress(player);
+  useEffect(() => {
+    void submitResults(player, progress);
+  }, [player, progress]);
   const [view, setView] = useState<View>(null);
   // In the answers view a finished (10 s) track moves on by itself.
   const nextRef = useRef<() => void>(() => {});

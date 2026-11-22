@@ -20,7 +20,9 @@ export default function Game() {
     );
     // Warm the browser cache with the photos too.
     for (const q of CATEGORIES.flatMap((c) => c.questions)) {
-      if (q.image) new Image().src = asset(q.image);
+      for (const src of [q.image, ...(q.images ?? [])]) {
+        if (src) new Image().src = asset(src);
+      }
     }
   }, []);
 

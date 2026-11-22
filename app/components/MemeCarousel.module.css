@@ -1,0 +1,17 @@
+.wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
+.stage { position: relative; width: 100%; max-width: 440px; aspect-ratio: 1 / 1; border-radius: 12px; overflow: hidden; background: #0c1a4a; box-shadow: 0 8px 24px rgba(0,0,0,.4); touch-action: pan-y; user-select: none; cursor: grab; outline: none; }
+.stage:focus-visible { box-shadow: 0 0 0 2px #ffd54a; }
+.slide { position: absolute; inset: 0; }
+.slide img { width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none; }
+.fromRight { animation: inRight .3s ease-out; }
+.fromLeft { animation: inLeft .3s ease-out; }
+.drag { animation: none; }
+.arrow { position: absolute; top: 50%; translate: 0 -50%; width: 40px; height: 56px; border: 0; border-radius: 8px; background: rgba(0,0,0,.45); color: #fff; font-size: 2rem; line-height: 1; cursor: pointer; }
+.prev { left: 6px; }
+.next { right: 6px; }
+.dots { display: flex; gap: 6px; }
+.dot, .dotOn { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.3); }
+.dotOn { background: #ffd54a; }
+@keyframes inRight { from { transform: translateX(40%); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes inLeft { from { transform: translateX(-40%); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .fromRight, .fromLeft { animation: none; } }

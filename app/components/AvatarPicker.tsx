@@ -30,13 +30,17 @@ export default function AvatarPicker<T extends Account = Player>({
     if (next !== index) onChange(options[next]);
   };
 
-  const end = () => {
+  // Use the pointer's final position, not state, which may be one render behind.
+  const dxRef = useRef(0);
+  const end = (e: React.PointerEvent) => {
     if (!dragging) return;
     setDragging(false);
-    if (Math.abs(dx) >= SWIPE_MIN) {
-      const jump = Math.max(1, Math.round(Math.abs(dx) / STEP));
-      go(index + (dx < 0 ? jump : -jump));
+    const d = e.type === "pointerup" ? e.clientX - startX.current : dxRef.current;
+    if (Math.abs(d) >= SWIPE_MIN) {
+      const jump = Math.max(1, Math.round(Math.abs(d) / STEP));
+      go(index + (d < 0 ? jump : -jump));
     }
+    dxRef.current = 0;
     setDx(0);
   };
 
@@ -66,6 +70,7 @@ export default function AvatarPicker<T extends Account = Player>({
           if (!dragging) return;
           const d = e.clientX - startX.current;
           if (Math.abs(d) > 6) moved.current = true;
+          dxRef.current = d;
           setDx(d);
         }}
         onPointerUp={end}

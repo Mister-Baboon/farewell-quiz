@@ -6,6 +6,7 @@ export type Question = {
   answer: Player;
   audio?: string; // path under /public, e.g. "/music/1.m4a"
   image?: string; // photo to guess, path under /public
+  images?: string[]; // several pictures for one question (swipeable)
   caption?: string; // shown with the photo (e.g. the dish name)
   revealCaption?: string; // shown only on the answers screen
   // Shown on the answers screen after the round.
@@ -154,6 +155,28 @@ const food = photoRound(
   false,
 );
 
+// Memes: several pictures per question, files /public/memes/<q>_<n>.<ext>.
+const MEME_FILES: [Player, string[]][] = [
+  ["Леша Г", ["1_1.jpg", "1_2.jpg"]],
+  ["Максим", ["2_1.jpg", "2_2.jpg"]],
+  ["Витя", ["3_1.jpg", "3_2.jpg", "3_3.jpg"]],
+  ["Леша К", ["4_1.jpg", "4_2.jpeg", "4_3.jpg"]],
+  ["Аня", ["5_1.jpg", "5_2.jpg", "5_3.jpg"]],
+  ["Ира", ["6_1.jpg", "6_2.jpg"]],
+  ["Кристина", ["7_1.jpeg", "7_2.jpg"]],
+  ["Кирилл", ["8_1.jpg", "8_2.jpeg"]],
+];
+
+const memes: Category = {
+  id: "memes",
+  title: "Мемы",
+  questions: MEME_FILES.map(([answer, files]) => ({
+    text: "Чьи это мемы?",
+    answer,
+    images: files.map((f) => `/memes/${f}`),
+  })),
+};
+
 const DESCRIPTIONS: Record<string, string> = {
   music:
     "На входе прозвучит песня, как в нелюбимом раунде на квизах. Но угадывать нужно не исполнителя, а слушателя: кому она нравится и кто бы взял её на квиз.",
@@ -162,6 +185,8 @@ const DESCRIPTIONS: Record<string, string> = {
   games:
     "Кто в это играл и, возможно, даже полюбил. А возможно, не играл, но связан. А возможно, и не связан.",
   food: "Будет сложно: просто блюдо без контекста.",
+  memes:
+    "На входе 2–3 мема: нужно угадать человека, которому они нравятся или с которым связаны. Листай свайпом, картинки идут по кругу.",
 };
 
 const ALL: Category[] = [
@@ -170,6 +195,7 @@ const ALL: Category[] = [
   games,
   kids,
   food,
+  memes,
 ];
 
 export const CATEGORIES: Category[] = ALL.map((c) => ({
