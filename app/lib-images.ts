@@ -4,11 +4,15 @@
 // request the same file twice.
 const started = new Map<string, HTMLImageElement>();
 
-export function preloadImages(urls: string[]) {
+export function preloadImages(
+  urls: string[],
+  priority: "high" | "low" | "auto" = "auto",
+) {
   for (const url of urls) {
     if (started.has(url)) continue;
     const img = new Image();
     img.decoding = "async";
+    img.fetchPriority = priority;
     img.src = url;
     started.set(url, img);
   }

@@ -14,21 +14,22 @@ import styles from "./screens.module.css";
 export default function Game() {
   const player = usePlayer();
 
-  // Start downloading every track as soon as the page opens.
+  // Avatars first (the picker needs them right away), then tracks and photos.
   useEffect(() => {
+    preloadImages(Object.values(AVATARS).map(asset), "high");
     preloadAudio(
       CATEGORIES.flatMap((c) => c.questions)
         .flatMap((q) => (q.audio ? [asset(q.audio)] : [])),
     );
-    // Same for every picture: question photos, meme sets, album covers, avatars.
+    // Same for every picture: question photos, meme sets, album covers.
     const questions = CATEGORIES.flatMap((c) => c.questions);
     preloadImages(
       [
         ...questions.flatMap((q) => [q.image, q.track?.cover, ...(q.images ?? [])]),
-        ...Object.values(AVATARS),
       ]
         .filter((src): src is string => !!src)
         .map(asset),
+      "low",
     );
   }, []);
 
