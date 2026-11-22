@@ -6,12 +6,15 @@ export type Question = {
   answer: Player;
   audio?: string; // path under /public, e.g. "/music/1.m4a"
   image?: string; // photo to guess, path under /public
+  caption?: string; // shown with the photo (e.g. the dish name)
+  revealCaption?: string; // shown only on the answers screen
   // Shown on the answers screen after the round.
   track?: { artist: string; title: string; cover: string };
 };
 export type Category = {
   id: string;
   title: string;
+  description?: string; // shown on the category card
   questions: Question[];
   plainSelect?: boolean; // plain dropdown instead of the avatar picker
 };
@@ -73,15 +76,17 @@ function photoRound(
   id: string,
   title: string,
   dir: string,
-  items: [Player, string][],
+  items: [Player, string, string?][],
   plainSelect = true,
+  captionOnReveal = false,
 ): Category {
   return {
     id,
     title,
     plainSelect,
-    questions: items.map(([answer, file]) => ({
-      text: "Кто на фото?",
+    questions: items.map(([answer, file, caption]) => ({
+      text: caption ? "Кто это заказал?" : "Кто на фото?",
+      ...(captionOnReveal ? { revealCaption: caption } : { caption }),
       answer,
       image: `/${dir}/${file.includes(".") ? file : `${file}.jpeg`}`,
     })),
@@ -118,21 +123,56 @@ const games = photoRound(
   "Игры",
   "games",
   [
-    ["Витя", "viktar.jpg"], // Gothic 2
-    ["Аня", "hanna.jpg"], // Рэкс
-    ["Кирилл", "kiryl.jpg"], // Kingdom Come: Deliverance
-    ["Ира", "ira.jpg"], // Balatro
-    ["Леша Г", "aleksei_h.jpg"], // Mario (Dendy)
-    ["Леша К", "aleksei_k.jpg"], // Oblivion
-    ["Максим", "max.jpg"], // Fallout: New Vegas
-    ["Кристина", "kristina.jpg"], // The Sims 3
+    ["Витя", "viktar.jpg", "Gothic II"],
+    ["Аня", "hanna.jpg", "Рэкс"],
+    ["Кирилл", "kiryl.jpg", "Kingdom Come: Deliverance"],
+    ["Ира", "ira.jpg", "Balatro"],
+    ["Леша Г", "aleksei_h.jpg", "Mario на Dendy (на двоих)"],
+    ["Леша К", "aleksei_k.jpg", "Fortnite"],
+    ["Максим", "max.jpg", "Fallout: New Vegas"],
+    ["Кристина", "kristina.png", "EPAM Onboarding Gamification"],
+  ],
+  false,
+  true, // game names are revealed only on the answers screen
+);
+
+// Georgian food: who ordered which dish. Photos /public/food/<n>.jpg in order.
+const food = photoRound(
+  "food",
+  "Грузинская кухня",
+  "food",
+  [
+    ["Леша Г", "1.jpg", "Суп харчо"],
+    ["Леша К", "2.jpg", "Хинкали"],
+    ["Кирилл", "3.jpg", "Хачапури"],
+    ["Аня", "4.jpg", "McDonald's Биг Тейсти"],
+    ["Кристина", "5.jpg", "Запечённые креветки"],
+    ["Ира", "6.jpg", "Чакапули (говядина)"],
+    ["Максим", "7.jpg", "Куриный шашлык"],
+    ["Витя", "8.jpg", "Мамалыга"],
   ],
   false,
 );
 
-export const CATEGORIES: Category[] = [
+const DESCRIPTIONS: Record<string, string> = {
+  music:
+    "На входе прозвучит песня, как в нелюбимом раунде на квизах. Но угадывать нужно не исполнителя, а слушателя: кому она нравится и кто бы взял её на квиз.",
+  art: "На входе картина импрессиониста: оригинальное фото → текстовое описание → заказ Ренуару, Моне и Дега по этому описанию.",
+  kids: "На входе изображение в возрасте 5 лет, полученное с помощью нейросети.",
+  games:
+    "Кто в это играл и, возможно, даже полюбил. А возможно, не играл, но связан. А возможно, и не связан.",
+  food: "Будет сложно: просто блюдо без контекста.",
+};
+
+const ALL: Category[] = [
   withAudio(placeholder("music", "Музыка")),
   art,
   games,
   kids,
+  food,
 ];
+
+export const CATEGORIES: Category[] = ALL.map((c) => ({
+  ...c,
+  description: DESCRIPTIONS[c.id],
+}));

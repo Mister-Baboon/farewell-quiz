@@ -42,3 +42,6 @@
 
 .photo { width: 100%; max-width: 440px; aspect-ratio: 1 / 1; margin: 0 auto; border-radius: 12px; overflow: hidden; background: #0c1a4a; box-shadow: 0 8px 24px rgba(0,0,0,.4); }
 .photo img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.caption { margin: 0; text-align: center; font-size: 1.5rem; font-weight: 800; color: #ffd54a; }
+.catDesc { font-size: .85rem; line-height: 1.35; text-align: center; color: #cfd8ff; }
+.category:disabled .catDesc { color: #8a96c9; }

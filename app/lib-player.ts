@@ -1,16 +1,16 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { PLAYERS, type Player } from "./data/players";
+import { ACCOUNTS, type Account } from "./data/players";
 
 // Which player this browser/device is. Stored locally; no server involved.
 const KEY = "quiz:player";
 const EVENT = "quiz:player-change";
 
-function read(): Player | null {
+function read(): Account | null {
   try {
     const v = localStorage.getItem(KEY);
-    return PLAYERS.find((p) => p === v) ?? null;
+    return ACCOUNTS.find((p) => p === v) ?? null;
   } catch {
     return null;
   }
@@ -25,7 +25,7 @@ function subscribe(cb: () => void) {
   };
 }
 
-export function setPlayer(p: Player | null) {
+export function setPlayer(p: Account | null) {
   try {
     if (p) localStorage.setItem(KEY, p);
     else localStorage.removeItem(KEY);
@@ -33,7 +33,7 @@ export function setPlayer(p: Player | null) {
   window.dispatchEvent(new Event(EVENT));
 }
 
-// undefined while hydrating, then Player | null.
-export function usePlayer(): Player | null | undefined {
+// undefined while hydrating, then Account | null.
+export function usePlayer(): Account | null | undefined {
   return useSyncExternalStore(subscribe, read, () => undefined);
 }

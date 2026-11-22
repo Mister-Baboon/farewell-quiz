@@ -74,6 +74,9 @@ export default function ReviewScreen({
             <img src={asset(q.image)} alt="" />
           </div>
         )}
+        {!track && (q.caption ?? q.revealCaption) && (
+          <div className={styles.caption}>{q.caption ?? q.revealCaption}</div>
+        )}
         {track && (
           <div className={styles.reviewText}>
             <div className={styles.artist}>{track.artist}</div>

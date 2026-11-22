@@ -11,6 +11,11 @@ export const PLAYERS = [
 
 export type Player = (typeof PLAYERS)[number];
 
+// A guest can play but is never an answer option.
+export const GUEST = "Гость";
+export const ACCOUNTS = [...PLAYERS, GUEST] as const;
+export type Account = Player | typeof GUEST;
+
 // Files live in public/avatars. Леша К → katorats is an assumption.
 export const AVATARS: Record<Player, string> = {
   "Аня": "/avatars/hanna.jpg",

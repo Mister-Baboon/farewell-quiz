@@ -56,6 +56,7 @@ export default function QuestionScreen({
           <img src={asset(question.image)} alt="" />
         </div>
       )}
+      {question.caption && <p className={styles.caption}>{question.caption}</p>}
 
       {category.plainSelect ? (
         <label className={styles.label}>

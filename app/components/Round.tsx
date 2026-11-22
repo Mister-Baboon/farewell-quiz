@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { CATEGORIES, type Category } from '../data/categories';
-import { type Player } from '../data/players';
+import { type Account } from '../data/players';
 import { asset } from '../lib-asset';
 import { useAudio } from '../lib-audio';
 import { saveAnswer, useProgress } from '../lib-progress';
@@ -26,7 +26,7 @@ const reviewSeconds = (c: Category) =>
   c.questions.some((q) => q.audio) ? REVIEW_SECONDS : PHOTO_REVIEW_SECONDS;
 
 // Category screen -> questions -> answers, for one player.
-export default function Round({ player }: { player: Player }) {
+export default function Round({ player }: { player: Account }) {
   const progress = useProgress(player);
   const [view, setView] = useState<View>(null);
   // In the answers view a finished (10 s) track moves on by itself.

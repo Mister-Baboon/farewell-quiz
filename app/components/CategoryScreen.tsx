@@ -36,6 +36,9 @@ export default function CategoryScreen({
                 onClick={() => onPick(cat)}
               >
                 <span className={styles.catTitle}>{cat.title}</span>
+                {cat.description && (
+                  <span className={styles.catDesc}>{cat.description}</span>
+                )}
                 <span className={styles.catStatus}>
                   {done
                     ? `Верно: ${correct} из ${total}`

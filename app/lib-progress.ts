@@ -1,15 +1,15 @@
 "use client";
 
 import { useMemo, useSyncExternalStore } from "react";
-import { PLAYERS, type Player } from "./data/players";
+import { PLAYERS, type Account, type Player } from "./data/players";
 
 // Per-player answers, kept in this browser: categoryId -> guesses in order.
 export type Progress = Record<string, Player[]>;
 
 const EVENT = "quiz:progress-change";
-const key = (player: Player) => `quiz:progress:${player}`;
+const key = (player: Account) => `quiz:progress:${player}`;
 
-function readRaw(player: Player): string {
+function readRaw(player: Account): string {
   try {
     return localStorage.getItem(key(player)) ?? "";
   } catch {
@@ -43,7 +43,7 @@ function subscribe(cb: () => void) {
   };
 }
 
-export function useProgress(player: Player): Progress {
+export function useProgress(player: Account): Progress {
   const raw = useSyncExternalStore(
     subscribe,
     () => readRaw(player),
@@ -52,7 +52,7 @@ export function useProgress(player: Player): Progress {
   return useMemo(() => parse(raw), [raw]);
 }
 
-export function saveAnswer(player: Player, categoryId: string, guess: Player) {
+export function saveAnswer(player: Account, categoryId: string, guess: Player) {
   const progress = parse(readRaw(player));
   progress[categoryId] = [...(progress[categoryId] ?? []), guess];
   try {
